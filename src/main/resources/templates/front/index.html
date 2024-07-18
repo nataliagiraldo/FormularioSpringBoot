@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,35 +15,62 @@
             <h4>Formulario de Registro</h4>
           </div>
           <div class="card-body">
-            <form th:action="@{/}" th:object="${user}" method="post">
+            <form id="userForm">
               <div class="form-group">
                 <label for="profession">Profesión</label>
-                <input type="text" class="form-control" id="profession" th:field="*{profession}" placeholder="Ingresa tu profesión">
+                <input type="text" class="form-control" id="profession" placeholder="Ingresa tu profesión" required>
               </div>
               <div class="form-group">
                 <label for="firstName">Nombre</label>
-                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="Ingresa tu nombre">
+                <input type="text" class="form-control" id="firstName" placeholder="Ingresa tu nombre" required>
               </div>
               <div class="form-group">
                 <label for="lastName">Apellido</label>
-                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="Ingresa tu apellido">
+                <input type="text" class="form-control" id="lastName" placeholder="Ingresa tu apellido" required>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Enviar</button>
             </form>
 
             <!-- Mostrar datos del usuario enviado -->
-            <div th:if="${user.firstName != null}">
-              <h5 class="mt-4">Datos enviados:</h5>
-              <p><strong>Nombre:</strong> <span th:text="${user.firstName}"></span></p>
-              <p><strong>Apellido:</strong> <span th:text="${user.lastName}"></span></p>
-              <p><strong>Profesión:</strong> <span th:text="${user.profession}"></span></p>
+            <div id="userData" style="display:none;" class="mt-4">
+              <h5>Datos enviados:</h5>
+              <p><strong>Nombre:</strong> <span id="userFirstName"></span></p>
+              <p><strong>Apellido:</strong> <span id="userLastName"></span></p>
+              <p><strong>Profesión:</strong> <span id="userProfession"></span></p>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      let user = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        profession: document.getElementById('profession').value
+      };
+
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('userFirstName').textContent = data.firstName;
+        document.getElementById('userLastName').textContent = data.lastName;
+        document.getElementById('userProfession').textContent = data.profession;
+        document.getElementById('userData').style.display = 'block';
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

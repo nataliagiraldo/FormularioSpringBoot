@@ -5,7 +5,7 @@ public class User {
     private String lastName;
     private String profession;
 
-
+    // Getters y setters
     public String getFirstName() {
         return firstName;
     }
@@ -24,11 +24,9 @@ public class User {
     public void setProfession(String profession) {
         this.profession = profession;
     }
+
     @Override
     public String toString() {
         return "User [firstName=" + firstName + ", lastName=" + lastName + ", profession=" + profession + "]";
     }
-
-    
-
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-primary text-white text-center">
+            <h4>Formulario de Registro</h4>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/}" th:object="${user}" method="post">
+              <div class="form-group">
+                <label for="profession">Profesión</label>
+                <input type="text" class="form-control" id="profession" th:field="*{profession}" placeholder="Ingresa tu profesión">
+              </div>
+              <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="Ingresa tu nombre">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="Ingresa tu apellido">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+            </form>
+
+            <!-- Mostrar datos del usuario enviado -->
+            <div th:if="${user.firstName != null}">
+              <h5 class="mt-4">Datos enviados:</h5>
+              <p><strong>Nombre:</strong> <span th:text="${user.firstName}"></span></p>
+              <p><strong>Apellido:</strong> <span th:text="${user.lastName}"></span></p>
+              <p><strong>Profesión:</strong> <span th:text="${user.profession}"></span></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
